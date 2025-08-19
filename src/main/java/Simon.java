@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Simon {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         String logo = "   _____ _                     \n"
@@ -29,13 +29,65 @@ public class Simon {
                     """);
                 break;
             } else if (input.equals("list")) {
-                System.out.println("____________________________________________________________");
+                System.out.println("____________________________________________________________\n Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
                     System.out.println(" " + (i + 1) + ". " + tasks[i]);
                 }
                 System.out.println("____________________________________________________________");
+            } else if (input.startsWith("mark ")) {
+                try {
+                    int taskIdx = Integer.parseInt(input.substring(5)) - 1;
+                    if (taskIdx < 0 || taskIdx >= taskCount) {
+                        throw new IndexOutOfBoundsException();
+                    }
+                    tasks[taskIdx].markAsDone();
+                    System.out.println(
+                        "____________________________________________________________\n"
+                        + " Nice! I've marked this task as done:\n"
+                        + "   " + tasks[taskIdx]
+                        + "\n____________________________________________________________"
+                    );
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("""
+                        ____________________________________________________________
+                         There is no task at this index.
+                        ____________________________________________________________
+                        """);
+                } catch (NumberFormatException e) {
+                    System.out.println("""
+                        ____________________________________________________________
+                         Invalid mark command. Enter an integer after "mark ".
+                        ____________________________________________________________
+                        """);
+                }
+            } else if (input.startsWith("unmark ")) {
+                try {
+                    int taskIdx = Integer.parseInt(input.substring(7)) - 1;
+                    if (taskIdx < 0 || taskIdx >= taskCount) {
+                        throw new IndexOutOfBoundsException();
+                    }
+                    tasks[taskIdx].markAsNotDone();
+                    System.out.println(
+                        "____________________________________________________________\n"
+                        + " OK, I've marked this task as not done yet:\n"
+                        + "   " + tasks[taskIdx]
+                        + "\n____________________________________________________________"
+                    );
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("""
+                        ____________________________________________________________
+                         There is no task at this index.
+                        ____________________________________________________________
+                        """);
+                } catch (NumberFormatException e) {
+                    System.out.println("""
+                        ____________________________________________________________
+                         Invalid mark command. Enter an integer after "mark ".
+                        ____________________________________________________________
+                        """);
+                }
             } else {
-                tasks[taskCount] = input;
+                tasks[taskCount] = new Task(input);
                 taskCount++;
                 System.out.println(
                     "____________________________________________________________\n" 
