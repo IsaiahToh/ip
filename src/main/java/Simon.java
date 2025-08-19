@@ -2,6 +2,10 @@ import java.util.Scanner;
 
 public class Simon {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] tasks = new String[100];
+        int taskCount = 0;
+
         String logo = "   _____ _                     \n"
                 + "  / ___/(_)___ ___  ____  ____ \n"
                 + "  \\__ \\/ / __ `__ \\/ __ \\/ __ \\\n"
@@ -15,8 +19,6 @@ public class Simon {
             + "____________________________________________________________\n"
         );
 
-        Scanner scanner = new Scanner(System.in);
-
         while (true) {
             String input = scanner.nextLine();
             if (input.equals("bye")) {
@@ -26,10 +28,18 @@ public class Simon {
                     ____________________________________________________________
                     """);
                 break;
+            } else if (input.equals("list")) {
+                System.out.println("____________________________________________________________");
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                }
+                System.out.println("____________________________________________________________");
             } else {
+                tasks[taskCount] = input;
+                taskCount++;
                 System.out.println(
-                    "____________________________________________________________"
-                    + "\n " 
+                    "____________________________________________________________\n" 
+                    + " added: "
                     + input
                     + "\n____________________________________________________________"
                 );
