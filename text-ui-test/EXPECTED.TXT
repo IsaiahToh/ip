@@ -10,6 +10,15 @@ What can I do for you?
 ____________________________________________________________
 
 ____________________________________________________________
+The description of a todo cannot be empty. Follow the format: todo <description>.
+____________________________________________________________
+____________________________________________________________
+The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.
+____________________________________________________________
+____________________________________________________________
+The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.
+____________________________________________________________
+____________________________________________________________
  Got it. I've added this task:
    [T][ ] read book
  Now you have 1 tasks in the list.
@@ -39,10 +48,9 @@ ____________________________________________________________
    [D][ ] return book (by: Sunday)
 ____________________________________________________________
 ____________________________________________________________
- Sorry, not trained for that. Use todo, deadline, and event to add a task :)
+Sorry, not trained for that. Use 'todo <description>', 'deadline <description> /by <due date>', and 'event <description> /from <start date> /to <end date>' to add a task :)
 ____________________________________________________________
-
 ____________________________________________________________
- Bye. Hope to see you again soon!
+Bye. Hope to see you again soon!
 ____________________________________________________________
 
