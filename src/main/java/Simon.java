@@ -1,9 +1,10 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Simon {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[100];
+        ArrayList<Task> tasks = new ArrayList<>();
         int taskCount = 0;
 
         String logo = """
@@ -16,8 +17,8 @@ public class Simon {
         System.out.println(
             "____________________________________________________________\n" 
             + logo 
-            + "\nHello! I'm Simon\n"
-            + "What can I do for you?\n"
+            + "\n Hello! I'm Simon\n"
+            + " What can I do for you?\n"
             + "____________________________________________________________\n"
         );
 
@@ -27,14 +28,14 @@ public class Simon {
                 if (input.equals("bye")) {
                     System.out.println("""
                         ____________________________________________________________
-                        Bye. Hope to see you again soon!
+                         Bye. Hope to see you again soon!
                         ____________________________________________________________
                         """);
                     break;
                 } else if (input.equals("list")) {
                     System.out.println("____________________________________________________________\n Here are the tasks in your list:");
                     for (int i = 0; i < taskCount; i++) {
-                        System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                        System.out.println(" " + (i + 1) + ". " + tasks.get(i));
                     }
                     System.out.println("____________________________________________________________");
                 } else if (input.startsWith("mark ")) {
@@ -43,23 +44,23 @@ public class Simon {
                         if (taskIdx < 0 || taskIdx >= taskCount) {
                             throw new IndexOutOfBoundsException();
                         }
-                        tasks[taskIdx].markAsDone();
+                        tasks.get(taskIdx).markAsDone();
                         System.out.println(
                             "____________________________________________________________\n"
                             + " Nice! I've marked this task as done:\n"
-                            + "   " + tasks[taskIdx]
+                            + "   " + tasks.get(taskIdx)
                             + "\n____________________________________________________________"
                         );
                     } catch (IndexOutOfBoundsException e) {
                         System.out.println("""
                             ____________________________________________________________
-                            There is no task at this index.
+                             There is no task at this index.
                             ____________________________________________________________
                             """);
                     } catch (NumberFormatException e) {
                         System.out.println("""
                             ____________________________________________________________
-                            Invalid mark command. Enter an integer after "mark ".
+                             Invalid mark command. Enter an integer after "mark ".
                             ____________________________________________________________
                             """);
                     }
@@ -69,37 +70,37 @@ public class Simon {
                         if (taskIdx < 0 || taskIdx >= taskCount) {
                             throw new IndexOutOfBoundsException();
                         }
-                        tasks[taskIdx].markAsNotDone();
+                        tasks.get(taskIdx).markAsNotDone();
                         System.out.println(
                             "____________________________________________________________\n"
                             + " OK, I've marked this task as not done yet:\n"
-                            + "   " + tasks[taskIdx]
+                            + "   " + tasks.get(taskIdx)
                             + "\n____________________________________________________________"
                         );
                     } catch (IndexOutOfBoundsException e) {
                         System.out.println("""
                             ____________________________________________________________
-                            There is no task at this index.
+                             There is no task at this index.
                             ____________________________________________________________
                             """);
                     } catch (NumberFormatException e) {
                         System.out.println("""
                             ____________________________________________________________
-                            Invalid mark command. Enter an integer after "mark ".
+                             Invalid mark command. Enter an integer after "unmark ".
                             ____________________________________________________________
                             """);
                     }
                 } else if (input.startsWith("todo")) {
                     String description = input.length() > 4 ? input.substring(4).trim() : "";
                     if (description.isEmpty()) {
-                        throw new SimonExceptions.EmptyTaskException("The description of a todo cannot be empty. Follow the format: todo <description>.");
+                        throw new SimonExceptions.EmptyTaskException(" The description of a todo cannot be empty. Follow the format: todo <description>.");
                     }
-                    tasks[taskCount] = new Todo(description);
+                    tasks.add(new Todo(description));
                     taskCount++;
                     System.out.println(
                         "____________________________________________________________\n" 
                         + " Got it. I've added this task:\n"
-                        + "   " + tasks[taskCount - 1]
+                        + "   " + tasks.get(taskCount - 1)
                         + "\n Now you have " + taskCount + " tasks in the list.\n"
                         + "____________________________________________________________"
                     );
@@ -109,14 +110,14 @@ public class Simon {
                     String description = parts[0].trim();
                     String by = (parts.length > 1) ? parts[1] : "";
                     if (description.isEmpty() || by.isEmpty()) {
-                        throw new SimonExceptions.EmptyTaskException("The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.");
+                        throw new SimonExceptions.EmptyTaskException(" The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.");
                     }
-                    tasks[taskCount] = new Deadline(description, by);
+                    tasks.add(new Deadline(description, by));
                     taskCount++;
                     System.out.println(
                         "____________________________________________________________\n" 
                         + " Got it. I've added this task:\n"
-                        + "   " + tasks[taskCount - 1]
+                        + "   " + tasks.get(taskCount - 1)
                         + "\n Now you have " + taskCount + " tasks in the list.\n"
                         + "____________________________________________________________"
                     );
@@ -127,19 +128,51 @@ public class Simon {
                     String start = parts.length > 1 ? parts[1].trim() : "";
                     String end = parts.length > 2 ? parts[2].trim() : "";
                     if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
-                        throw new SimonExceptions.EmptyTaskException("The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.");
+                        throw new SimonExceptions.EmptyTaskException(" The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.");
                     }
-                    tasks[taskCount] = new Event(description, start, end);
+                    tasks.add(new Event(description, start, end));
                     taskCount++;
                     System.out.println(
                         "____________________________________________________________\n" 
                         + " Got it. I've added this task:\n"
-                        + "   " + tasks[taskCount - 1]
+                        + "   " + tasks.get(taskCount - 1)
                         + "\n Now you have " + taskCount + " tasks in the list.\n"
                         + "____________________________________________________________"
                     );
+                } else if (input.startsWith("delete")) {
+                    try {
+                        String arg = input.length() > 6 ? input.substring(6).trim() : "";
+                        if (arg.isEmpty()) {
+                            throw new SimonExceptions.EmptyTaskException(" The index of the task to delete cannot be empty. Follow the format: delete <task index>.");
+                        }
+                        int taskIdx = Integer.parseInt(arg) - 1;
+                        if (taskIdx < 0 || taskIdx >= taskCount) {
+                            throw new IndexOutOfBoundsException();
+                        }
+                        Task removedTask = tasks.remove(taskIdx);
+                        taskCount--;
+                        System.out.println(
+                            "____________________________________________________________\n"
+                            + " Noted. I've removed this task:\n"
+                            + "   " + removedTask
+                            + "\n Now you have " + taskCount + " tasks in the list.\n"
+                            + "____________________________________________________________"
+                        );
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("""
+                            ____________________________________________________________
+                             There is no task at this index.
+                            ____________________________________________________________
+                            """);
+                    } catch (NumberFormatException e) {
+                        System.out.println("""
+                            ____________________________________________________________
+                             Invalid delete command. Enter an integer after "delete ".
+                            ____________________________________________________________
+                            """);
+                    }
                 } else {
-                    throw new SimonExceptions.UnknownCommandException("Sorry, not trained for that. Use 'todo <description>', 'deadline <description> /by <due date>', and 'event <description> /from <start date> /to <end date>' to add a task :)");
+                    throw new SimonExceptions.UnknownCommandException(" Sorry, not trained for that. Use 'todo <description>', 'deadline <description> /by <due date>', and 'event <description> /from <start date> /to <end date>' to add a task :)");
                 }
             } catch (SimonExceptions.EmptyTaskException e) {
                 System.out.println(
