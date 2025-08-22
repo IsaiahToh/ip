@@ -1,5 +1,8 @@
 @ECHO OFF
 
+REM delete simon.txt from previous run
+if exist data\simon.txt del data\simon.txt
+
 REM create bin directory if it doesn't exist
 if not exist ..\bin mkdir ..\bin
 
