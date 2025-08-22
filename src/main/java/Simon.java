@@ -1,11 +1,15 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Simon {
+    private static final String FILE_PATH = "./data/simon.txt";
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
-        int taskCount = 0;
+        loadTasks(tasks);
 
         String logo = """
            _____ _                     
@@ -24,7 +28,7 @@ public class Simon {
 
         while (true) {
             try {
-                String input = scanner.nextLine();
+                String input = s.nextLine();
                 if (input.equals("bye")) {
                     System.out.println("""
                         ____________________________________________________________
@@ -34,17 +38,18 @@ public class Simon {
                     break;
                 } else if (input.equals("list")) {
                     System.out.println("____________________________________________________________\n Here are the tasks in your list:");
-                    for (int i = 0; i < taskCount; i++) {
+                    for (int i = 0; i < tasks.size(); i++) {
                         System.out.println(" " + (i + 1) + ". " + tasks.get(i));
                     }
                     System.out.println("____________________________________________________________");
                 } else if (input.startsWith("mark ")) {
                     try {
                         int taskIdx = Integer.parseInt(input.substring(5)) - 1;
-                        if (taskIdx < 0 || taskIdx >= taskCount) {
+                        if (taskIdx < 0 || taskIdx >= tasks.size()) {
                             throw new IndexOutOfBoundsException();
                         }
                         tasks.get(taskIdx).markAsDone();
+                        saveTasks(tasks);
                         System.out.println(
                             "____________________________________________________________\n"
                             + " Nice! I've marked this task as done:\n"
@@ -67,10 +72,11 @@ public class Simon {
                 } else if (input.startsWith("unmark ")) {
                     try {
                         int taskIdx = Integer.parseInt(input.substring(7)) - 1;
-                        if (taskIdx < 0 || taskIdx >= taskCount) {
+                        if (taskIdx < 0 || taskIdx >= tasks.size()) {
                             throw new IndexOutOfBoundsException();
                         }
                         tasks.get(taskIdx).markAsNotDone();
+                        saveTasks(tasks);
                         System.out.println(
                             "____________________________________________________________\n"
                             + " OK, I've marked this task as not done yet:\n"
@@ -96,12 +102,12 @@ public class Simon {
                         throw new SimonExceptions.EmptyTaskException(" The description of a todo cannot be empty. Follow the format: todo <description>.");
                     }
                     tasks.add(new Todo(description));
-                    taskCount++;
+                    saveTasks(tasks);
                     System.out.println(
                         "____________________________________________________________\n" 
                         + " Got it. I've added this task:\n"
-                        + "   " + tasks.get(taskCount - 1)
-                        + "\n Now you have " + taskCount + " tasks in the list.\n"
+                        + "   " + tasks.get(tasks.size() - 1)
+                        + "\n Now you have " + tasks.size() + " tasks in the list.\n"
                         + "____________________________________________________________"
                     );
                 } else if (input.startsWith("deadline")) {
@@ -113,12 +119,12 @@ public class Simon {
                         throw new SimonExceptions.EmptyTaskException(" The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.");
                     }
                     tasks.add(new Deadline(description, by));
-                    taskCount++;
+                    saveTasks(tasks);
                     System.out.println(
                         "____________________________________________________________\n" 
                         + " Got it. I've added this task:\n"
-                        + "   " + tasks.get(taskCount - 1)
-                        + "\n Now you have " + taskCount + " tasks in the list.\n"
+                        + "   " + tasks.get(tasks.size() - 1)
+                        + "\n Now you have " + tasks.size() + " tasks in the list.\n"
                         + "____________________________________________________________"
                     );
                 } else if (input.startsWith("event")) {
@@ -131,12 +137,12 @@ public class Simon {
                         throw new SimonExceptions.EmptyTaskException(" The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.");
                     }
                     tasks.add(new Event(description, start, end));
-                    taskCount++;
+                    saveTasks(tasks);
                     System.out.println(
                         "____________________________________________________________\n" 
                         + " Got it. I've added this task:\n"
-                        + "   " + tasks.get(taskCount - 1)
-                        + "\n Now you have " + taskCount + " tasks in the list.\n"
+                        + "   " + tasks.get(tasks.size() - 1)
+                        + "\n Now you have " + tasks.size() + " tasks in the list.\n"
                         + "____________________________________________________________"
                     );
                 } else if (input.startsWith("delete")) {
@@ -146,16 +152,16 @@ public class Simon {
                             throw new SimonExceptions.EmptyTaskException(" The index of the task to delete cannot be empty. Follow the format: delete <task index>.");
                         }
                         int taskIdx = Integer.parseInt(arg) - 1;
-                        if (taskIdx < 0 || taskIdx >= taskCount) {
+                        if (taskIdx < 0 || taskIdx >= tasks.size()) {
                             throw new IndexOutOfBoundsException();
                         }
                         Task removedTask = tasks.remove(taskIdx);
-                        taskCount--;
+                        saveTasks(tasks);
                         System.out.println(
                             "____________________________________________________________\n"
                             + " Noted. I've removed this task:\n"
                             + "   " + removedTask
-                            + "\n Now you have " + taskCount + " tasks in the list.\n"
+                            + "\n Now you have " + tasks.size() + " tasks in the list.\n"
                             + "____________________________________________________________"
                         );
                     } catch (IndexOutOfBoundsException e) {
@@ -188,6 +194,98 @@ public class Simon {
                 );
             }
         }
-        scanner.close();
+        s.close();
+    }
+
+    private static void saveTasks(ArrayList<Task> tasks) {
+        try {
+            File dir = new File("./data"); 
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            FileWriter writer = new FileWriter(FILE_PATH);
+            for (Task task : tasks) {
+                writer.write(taskToFileString(task) + "\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(
+                "____________________________________________________________\n"
+                + " An error occurred while saving tasks: " + e.getMessage()
+                + "\n____________________________________________________________"
+            );
+        }
+    }
+
+    private static void loadTasks(ArrayList<Task> tasks) {
+        File f = new File(FILE_PATH);
+        if (!f.exists()) {
+            return;
+        }
+        try {
+            Scanner fs = new Scanner(f);
+            while (fs.hasNextLine()) {
+                String line = fs.nextLine();
+                Task task = parseTaskFromFile(line);
+                if (task != null) {
+                    tasks.add(task);
+                }
+            }
+            fs.close();
+        } catch (IOException e) {
+            System.out.println(
+                "____________________________________________________________\n"
+                + " An error occurred while loading tasks: " + e.getMessage()
+                + "\n____________________________________________________________"
+            );
+        }
+    }
+
+    private static String taskToFileString(Task task) {
+        String type = null;
+        String done = task.isDone ? "1" : "0";
+        if (task instanceof Todo) {
+            type = "T";
+            return type + " | " + done + " | " + task.description;
+        } else if (task instanceof Deadline) {
+            type = "D";
+            return type + " | " + done + " | " + task.description + " | " + ((Deadline) task).by;
+        } else if (task instanceof Event) {
+            type = "E";
+            return type + " | " + done + " | " + task.description + " | " + ((Event) task).start + " | " + ((Event) task).end;
+        }
+        return "";
+    }
+
+    private static Task parseTaskFromFile(String line) {
+        try {
+            String[] parts = line.split(" \\| ");
+            String type = parts[0];
+            boolean isDone = parts[1].equals("1");
+            String description = parts[2];
+            Task task = null;
+            switch (type) {
+                case "T":
+                    task = new Todo(description);
+                    break;
+                case "D":
+                    String by = parts.length > 3 ? parts[3] : "";
+                    task = new Deadline(description, by);
+                    break;
+                case "E":
+                    String start = parts.length > 3 ? parts[3] : "";
+                    String end = parts.length > 4 ? parts[4] : "";
+                    task = new Event(description, start, end);
+                    break;
+                default:
+                    return null;
+            }
+            if (isDone && task != null) {
+                task.markAsDone();
+            }
+            return task;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
