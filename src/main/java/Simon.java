@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Simon {
     private static final String FILE_PATH = "./data/simon.txt";
@@ -30,11 +34,13 @@ public class Simon {
             try {
                 String input = s.nextLine();
                 if (input.equals("bye")) {
-                    System.out.println("""
+                    System.out.println(
+                        """
                         ____________________________________________________________
                          Bye. Hope to see you again soon!
                         ____________________________________________________________
-                        """);
+                        """
+                    );
                     break;
                 } else if (input.equals("list")) {
                     System.out.println("____________________________________________________________\n Here are the tasks in your list:");
@@ -57,17 +63,21 @@ public class Simon {
                             + "\n____________________________________________________________"
                         );
                     } catch (IndexOutOfBoundsException e) {
-                        System.out.println("""
+                        System.out.println(
+                            """
                             ____________________________________________________________
                              There is no task at this index.
                             ____________________________________________________________
-                            """);
+                            """
+                        );
                     } catch (NumberFormatException e) {
-                        System.out.println("""
+                        System.out.println(
+                            """
                             ____________________________________________________________
                              Invalid mark command. Enter an integer after "mark ".
                             ____________________________________________________________
-                            """);
+                            """
+                        );
                     }
                 } else if (input.startsWith("unmark ")) {
                     try {
@@ -84,17 +94,21 @@ public class Simon {
                             + "\n____________________________________________________________"
                         );
                     } catch (IndexOutOfBoundsException e) {
-                        System.out.println("""
+                        System.out.println(
+                            """
                             ____________________________________________________________
                              There is no task at this index.
                             ____________________________________________________________
-                            """);
+                            """
+                        );
                     } catch (NumberFormatException e) {
-                        System.out.println("""
+                        System.out.println(
+                            """
                             ____________________________________________________________
                              Invalid mark command. Enter an integer after "unmark ".
                             ____________________________________________________________
-                            """);
+                            """
+                        );
                     }
                 } else if (input.startsWith("todo")) {
                     String description = input.length() > 4 ? input.substring(4).trim() : "";
@@ -116,7 +130,16 @@ public class Simon {
                     String description = parts[0].trim();
                     String by = (parts.length > 1) ? parts[1] : "";
                     if (description.isEmpty() || by.isEmpty()) {
-                        throw new SimonExceptions.EmptyTaskException(" The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.");
+                        throw new SimonExceptions.EmptyTaskException(
+                            """
+                             The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.
+                             Dates can follow the formats:
+                             d/M/yyyy HHmm,
+                             d/M/yyyy,
+                             yyyy-MM-dd HHmm,
+                             yyyy-MM-dd
+                            """
+                        );
                     }
                     tasks.add(new Deadline(description, by));
                     saveTasks(tasks);
@@ -134,7 +157,16 @@ public class Simon {
                     String start = parts.length > 1 ? parts[1].trim() : "";
                     String end = parts.length > 2 ? parts[2].trim() : "";
                     if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
-                        throw new SimonExceptions.EmptyTaskException(" The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.");
+                        throw new SimonExceptions.EmptyTaskException(
+                            """
+                             The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.
+                             Dates can follow the formats:
+                             d/M/yyyy HHmm,
+                             d/M/yyyy,
+                             yyyy-MM-dd HHmm,
+                             yyyy-MM-dd
+                            """
+                        );
                     }
                     tasks.add(new Event(description, start, end));
                     saveTasks(tasks);
@@ -165,18 +197,61 @@ public class Simon {
                             + "____________________________________________________________"
                         );
                     } catch (IndexOutOfBoundsException e) {
-                        System.out.println("""
+                        System.out.println(
+                            """
                             ____________________________________________________________
                              There is no task at this index.
                             ____________________________________________________________
-                            """);
+                            """
+                        );
                     } catch (NumberFormatException e) {
-                        System.out.println("""
+                        System.out.println(
+                            """
                             ____________________________________________________________
                              Invalid delete command. Enter an integer after "delete ".
                             ____________________________________________________________
-                            """);
+                            """
+                        );
                     }
+                } else if (input.startsWith("on ")) {
+                    String dateStr = input.substring(3);
+                    try {
+                        java.time.LocalDate queryDate = java.time.LocalDate.parse(dateStr);
+                        System.out.println(
+                            "____________________________________________________________\n Events and deadlines on "
+                            + queryDate.format(java.time.format.DateTimeFormatter.ofPattern("MMM d yyyy"))
+                            + ":"
+                        );
+                        boolean found = false;
+                        for (Task t : tasks) {
+                            if (t instanceof Deadline) {
+                                Deadline d = (Deadline) t;
+                                if (d.byDateTime != null && d.byDateTime.toLocalDate().equals(queryDate)) {
+                                    System.out.println(" " + t);
+                                    found = true;
+                                }
+                            } else if (t instanceof Event) {
+                                Event e = (Event) t;
+                                if ((e.startDateTime != null && e.startDateTime.toLocalDate().equals(queryDate)) || (e.endDateTime != null && e.endDateTime.toLocalDate().equals(queryDate))) {
+                                    System.out.println(" " + t);
+                                    found = true;
+                                }
+                            }
+                        }
+                        if (!found) {
+                            System.out.println(" No events or deadlines found on this date.");
+                        }
+                        System.out.println("____________________________________________________________");
+                    } catch (DateTimeParseException e) {
+                        System.out.println(
+                            """
+                            ____________________________________________________________
+                             Invalid date for on command. Follow the format: on <yyyy-MM-dd>.
+                            ____________________________________________________________
+                            """
+                        );
+                    }
+
                 } else {
                     throw new SimonExceptions.UnknownCommandException(" Sorry, not trained for that. Use 'todo <description>', 'deadline <description> /by <due date>', and 'event <description> /from <start date> /to <end date>' to add a task :)");
                 }
