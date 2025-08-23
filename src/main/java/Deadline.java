@@ -13,17 +13,18 @@ public class Deadline extends Task {
     }
 
     private LocalDateTime parseDateTime(String input) {
-        DateTimeFormatter[] formatters = new DateTimeFormatter[] {
-            DateTimeFormatter.ofPattern("d/M/yyyy HHmm"),
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"),
-            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        String[] patterns = {
+            "d/M/yyyy HHmm",
+            "d/M/yyyy",
+            "yyyy-MM-dd HHmm",
+            "yyyy-MM-dd"
         };
-        for (DateTimeFormatter f : formatters) {
+        for (String pattern : patterns) {
             try {
-                if (f.toString().contains("H")) {
-                    return LocalDateTime.parse(input, f);
+                if (pattern.contains("H")) {
+                    return LocalDateTime.parse(input, DateTimeFormatter.ofPattern(pattern));
                 } else {
-                    return LocalDateTime.parse(input + " 0000", DateTimeFormatter.ofPattern(f.toString() + " HHmm"));
+                    return LocalDateTime.parse(input + " 0000", DateTimeFormatter.ofPattern(pattern + " HHmm"));
                 }
             } catch (DateTimeParseException e) {}
         }
