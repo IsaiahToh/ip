@@ -105,7 +105,7 @@ public class Simon {
                         System.out.println(
                             """
                             ____________________________________________________________
-                             Invalid mark command. Enter an integer after "unmark ".
+                             Invalid unmark command. Enter an integer after "unmark ".
                             ____________________________________________________________
                             """
                         );
@@ -213,8 +213,8 @@ public class Simon {
                             """
                         );
                     }
-                } else if (input.startsWith("on ")) {
-                    String dateStr = input.substring(3);
+                } else if (input.startsWith("on")) {
+                    String dateStr = input.substring(2).trim();
                     try {
                         java.time.LocalDate queryDate = java.time.LocalDate.parse(dateStr);
                         System.out.println(
