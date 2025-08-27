@@ -1,0 +1,45 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+public class OnCommand extends Command {
+    private final String dateStr;
+
+    public OnCommand(String dateStr) {
+        this.dateStr = dateStr;
+    }
+
+    @Override
+    public void execute(TaskList tasks, Ui ui, Storage storage) {
+        try {
+            LocalDate queryDate = LocalDate.parse(dateStr);
+            ui.showLine();
+            System.out.println(" Events and deadlines on "
+                + queryDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ":");
+            boolean found = false;
+            for (Task t : tasks.getAll()) {
+                if (t instanceof Deadline) {
+                    Deadline d = (Deadline) t;
+                    if (d.byDateTime != null && d.byDateTime.toLocalDate().equals(queryDate)) {
+                        System.out.println(" " + t);
+                        found = true;
+                    }
+                } else if (t instanceof Event) {
+                    Event e = (Event) t;
+                    if ((e.startDateTime != null && e.startDateTime.toLocalDate().equals(queryDate))
+                        || (e.endDateTime != null && e.endDateTime.toLocalDate().equals(queryDate))) {
+                        System.out.println(" " + t);
+                        found = true;
+                    }
+                }
+            }
+            if (!found) {
+                System.out.println(" No events or deadlines found on this date.");
+            }
+        } catch (DateTimeParseException e) {
+            ui.showError(
+                " Invalid date for on command. Follow the format: on <yyyy-MM-dd>."
+            );
+        }
+    }
+}
