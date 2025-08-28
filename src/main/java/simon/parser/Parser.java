@@ -1,3 +1,21 @@
+package simon.parser;
+
+import simon.command.AddCommand;
+import simon.command.Command;
+import simon.command.DeleteCommand;
+import simon.command.ExitCommand;
+import simon.command.ListCommand;
+import simon.command.MarkCommand;
+import simon.command.OnCommand;
+import simon.command.UnmarkCommand;
+import simon.exceptions.SimonExceptions;
+import simon.exceptions.SimonExceptions.EmptyTaskException;
+import simon.exceptions.SimonExceptions.UnknownCommandException;
+import simon.task.Deadline;
+import simon.task.Event;
+import simon.task.Task;
+import simon.task.Todo;
+
 public class Parser {
     public static Command parse(String input) throws SimonExceptions.EmptyTaskException, SimonExceptions.UnknownCommandException {
         final String MARK_ERROR = " Invalid mark command. Enter an integer after \"mark \".";
@@ -128,16 +146,16 @@ public class Parser {
 
     public static String taskToFileString(Task task) {
         String type = null;
-        String done = task.isDone ? "1" : "0";
+        String done = task.isDone() ? "1" : "0";
         if (task instanceof Todo) {
             type = "T";
-            return type + " | " + done + " | " + task.description;
+            return type + " | " + done + " | " + task.getDescription();
         } else if (task instanceof Deadline) {
             type = "D";
-            return type + " | " + done + " | " + task.description + " | " + ((Deadline) task).by;
+            return type + " | " + done + " | " + task.getDescription() + " | " + ((Deadline) task).getBy();
         } else if (task instanceof Event) {
             type = "E";
-            return type + " | " + done + " | " + task.description + " | " + ((Event) task).start + " | " + ((Event) task).end;
+            return type + " | " + done + " | " + task.getDescription() + " | " + ((Event) task).getStart() + " | " + ((Event) task).getEnd();
         }
         return "";
     }

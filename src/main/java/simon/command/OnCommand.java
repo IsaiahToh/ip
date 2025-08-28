@@ -1,6 +1,14 @@
+package simon.command;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import simon.storage.Storage;
+import simon.task.Deadline;
+import simon.task.Event;
+import simon.task.Task;
+import simon.task.TaskList;
+import simon.ui.Ui;
 
 public class OnCommand extends Command {
     private final String dateStr;
@@ -20,14 +28,14 @@ public class OnCommand extends Command {
             for (Task t : tasks.getAll()) {
                 if (t instanceof Deadline) {
                     Deadline d = (Deadline) t;
-                    if (d.byDateTime != null && d.byDateTime.toLocalDate().equals(queryDate)) {
+                    if (d.getByDateTime() != null && d.getByDateTime().toLocalDate().equals(queryDate)) {
                         System.out.println(" " + t);
                         found = true;
                     }
                 } else if (t instanceof Event) {
                     Event e = (Event) t;
-                    if ((e.startDateTime != null && e.startDateTime.toLocalDate().equals(queryDate))
-                        || (e.endDateTime != null && e.endDateTime.toLocalDate().equals(queryDate))) {
+                    if ((e.getStartDateTime() != null && e.getStartDateTime().toLocalDate().equals(queryDate))
+                        || (e.getEndDateTime() != null && e.getEndDateTime().toLocalDate().equals(queryDate))) {
                         System.out.println(" " + t);
                         found = true;
                     }

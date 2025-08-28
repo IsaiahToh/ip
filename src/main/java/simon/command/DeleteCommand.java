@@ -1,4 +1,10 @@
+package simon.command;
 import java.util.ArrayList;
+
+import simon.storage.Storage;
+import simon.task.Task;
+import simon.task.TaskList;
+import simon.ui.Ui;
 
 public class DeleteCommand extends Command {
     private final int index;

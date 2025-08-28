@@ -1,3 +1,4 @@
+package simon.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -29,6 +30,14 @@ public class Deadline extends Task {
             } catch (DateTimeParseException e) {}
         }
         return null;
+    }
+
+    public String getBy() {
+        return by;
+    }
+
+    public LocalDateTime getByDateTime() {
+        return byDateTime;
     }
 
     @Override

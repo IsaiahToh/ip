@@ -1,3 +1,4 @@
+package simon.task;
 import java.util.ArrayList;
 import java.util.List;
 

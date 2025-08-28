@@ -1,3 +1,11 @@
+package simon;
+import simon.command.Command;
+import simon.exceptions.SimonExceptions;
+import simon.parser.Parser;
+import simon.storage.Storage;
+import simon.task.TaskList;
+import simon.ui.Ui;
+
 public class Simon {
     private Storage storage;
     private TaskList tasks;
