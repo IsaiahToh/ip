@@ -23,22 +23,20 @@ public class Parser {
         final String DELETE_ERROR = " The index of the task to delete cannot be empty. Follow the format: delete <task index>.";
         final String ON_ERROR = " Invalid date for on command. Follow the format: on <yyyy-MM-dd>.";
         final String TODO_ERROR = " The description of a todo cannot be empty. Follow the format: todo <description>.";
-        final String DEADLINE_ERROR = """
-             The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.
-             Dates can follow the formats:
-             d/M/yyyy HHmm,
-             d/M/yyyy,
-             yyyy-MM-dd HHmm,
-             yyyy-MM-dd
-            """;
-        final String EVENT_ERROR = """
-             The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.
-             Dates can follow the formats:
-             d/M/yyyy HHmm,
-             d/M/yyyy,
-             yyyy-MM-dd HHmm,
-             yyyy-MM-dd
-            """;
+                final String DEADLINE_ERROR =
+                        " The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.\n"
+                    + " Dates can follow the formats:\n"
+                    + " d/M/yyyy HHmm,\n"
+                    + " d/M/yyyy,\n"
+                    + " yyyy-MM-dd HHmm,\n"
+                    + " yyyy-MM-dd\n";
+                final String EVENT_ERROR =
+                        " The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.\n"
+                    + " Dates can follow the formats:\n"
+                    + " d/M/yyyy HHmm,\n"
+                    + " d/M/yyyy,\n"
+                    + " yyyy-MM-dd HHmm,\n"
+                    + " yyyy-MM-dd\n";
         final String UNKNOWN_ERROR =
             " Sorry, not trained for that. Use 'todo <description>', 'deadline <description> /by <due date>', and 'event <description> /from <start date> /to <end date>' to add a task :)";
 
