@@ -36,6 +36,22 @@ public class Event extends Task{
         return null;
     }
 
+    public String getStart() {
+        return start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
+
     @Override
     public String toString() {
         String startStr = start;

@@ -1,4 +1,6 @@
+package simon;
 import simon.command.Command;
+import simon.exceptions.SimonExceptions;
 import simon.parser.Parser;
 import simon.storage.Storage;
 import simon.task.TaskList;
