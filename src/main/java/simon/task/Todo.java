@@ -7,7 +7,7 @@ public class Todo extends Task {
 
     /**
      * Constructs a Todo task with the inputted description.
-     * 
+     *
      * @param description Description of the todo task.
      */
     public Todo(String description) {
@@ -16,7 +16,7 @@ public class Todo extends Task {
 
     /**
      * Returns the string representation of the todo task, including its type, status icon, and description.
-     * 
+     *
      * @return String representation of the todo task.
      */
     @Override

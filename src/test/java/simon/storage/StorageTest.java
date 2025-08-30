@@ -1,5 +1,10 @@
 package simon.storage;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.Assertions;
@@ -8,11 +13,6 @@ import simon.task.Task;
 import simon.task.Todo;
 import simon.task.Deadline;
 import simon.task.Event;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
 
 /**
  * Unit tests for the Storage class, namely the load() method.

@@ -1,4 +1,5 @@
 package simon;
+
 import simon.command.Command;
 import simon.exceptions.SimonExceptions;
 import simon.parser.Parser;
@@ -7,7 +8,8 @@ import simon.task.TaskList;
 import simon.ui.Ui;
 
 /**
- * Entry point for the Simon chatbot application. A <code>Simon</code> object manages the main loop and state of the program.
+ * Entry point for the Simon chatbot application.
+ * A <code>Simon</code> object manages the main loop and state of the program.
  */
 public class Simon {
     private Storage storage;
@@ -35,12 +37,12 @@ public class Simon {
      * Runs the main loop of the Simon chatbot, handling user input and executing commands.
      */
     public void run() {
-    String logo =
-        "   _____ _\n"
-          + "  / ___/(_)___ ___  ____  ____\n"
-          + "  \\__ \\/ / __ `__ \\/ __ \\/ __ \\\n"
-          + " ___/ / / / / / / /_/ / / / /\n"
-          + "/____/_/_/ /_/ /_/\\____/_/ /_/\n";
+        String logo =
+                "   _____ _\n"
+                        + "  / ___/(_)___ ___  ____  ____\n"
+                        + "  \\__ \\/ / __ `__ \\/ __ \\/ __ \\\n"
+                        + " ___/ / / / / / / /_/ / / / /\n"
+                        + "/____/_/_/ /_/ /_/\\____/_/ /_/\n";
         ui.showWelcome(logo);
         boolean isExit = false;
         while (!isExit) {

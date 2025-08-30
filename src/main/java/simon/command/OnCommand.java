@@ -1,4 +1,5 @@
 package simon.command;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -23,7 +24,7 @@ public class OnCommand extends Command {
             LocalDate queryDate = LocalDate.parse(dateStr);
             ui.showLine();
             System.out.println(" Events and deadlines on "
-                + queryDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ":");
+                    + queryDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ":");
             boolean found = false;
             for (Task t : tasks.getAll()) {
                 if (t instanceof Deadline) {
@@ -35,7 +36,7 @@ public class OnCommand extends Command {
                 } else if (t instanceof Event) {
                     Event e = (Event) t;
                     if ((e.getStartDateTime() != null && e.getStartDateTime().toLocalDate().equals(queryDate))
-                        || (e.getEndDateTime() != null && e.getEndDateTime().toLocalDate().equals(queryDate))) {
+                            || (e.getEndDateTime() != null && e.getEndDateTime().toLocalDate().equals(queryDate))) {
                         System.out.println(" " + t);
                         found = true;
                     }
@@ -46,7 +47,7 @@ public class OnCommand extends Command {
             }
         } catch (DateTimeParseException e) {
             ui.showError(
-                " Invalid date for on command. Follow the format: on <yyyy-MM-dd>."
+                    " Invalid date for on command. Follow the format: on <yyyy-MM-dd>."
             );
         }
     }

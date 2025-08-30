@@ -1,4 +1,5 @@
 package simon.exceptions;
+
 public class SimonExceptions extends Exception {
     public SimonExceptions(String message) {
         super(message);
