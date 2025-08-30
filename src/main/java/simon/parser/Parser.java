@@ -8,9 +8,11 @@ import simon.command.ListCommand;
 import simon.command.MarkCommand;
 import simon.command.OnCommand;
 import simon.command.UnmarkCommand;
+
 import simon.exceptions.SimonExceptions;
 import simon.exceptions.SimonExceptions.EmptyTaskException;
 import simon.exceptions.SimonExceptions.UnknownCommandException;
+
 import simon.task.Deadline;
 import simon.task.Event;
 import simon.task.Task;
@@ -25,31 +27,35 @@ public class Parser {
      *
      * @param input User input string.
      * @return Corresponding Command object.
-     * @throws SimonExceptions.EmptyTaskException If the command is missing required arguments.
+     * @throws SimonExceptions.EmptyTaskException      If the command is missing required arguments.
      * @throws SimonExceptions.UnknownCommandException If the command is not recognized.
      */
-    public static Command parse(String input) throws SimonExceptions.EmptyTaskException, SimonExceptions.UnknownCommandException {
-        final String MARK_ERROR = " Invalid mark command. Enter an integer after \"mark \".";
-        final String UNMARK_ERROR = " Invalid unmark command. Enter an integer after \"unmark \".";
-        final String DELETE_ERROR = " The index of the task to delete cannot be empty. Follow the format: delete <task index>.";
-        final String ON_ERROR = " Invalid date for on command. Follow the format: on <yyyy-MM-dd>.";
-        final String TODO_ERROR = " The description of a todo cannot be empty. Follow the format: todo <description>.";
-                final String DEADLINE_ERROR =
-                        " The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.\n"
-                    + " Dates can follow the formats:\n"
-                    + " d/M/yyyy HHmm,\n"
-                    + " d/M/yyyy,\n"
-                    + " yyyy-MM-dd HHmm,\n"
-                    + " yyyy-MM-dd\n";
-                final String EVENT_ERROR =
-                        " The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.\n"
-                    + " Dates can follow the formats:\n"
-                    + " d/M/yyyy HHmm,\n"
-                    + " d/M/yyyy,\n"
-                    + " yyyy-MM-dd HHmm,\n"
-                    + " yyyy-MM-dd\n";
-        final String UNKNOWN_ERROR =
-            " Sorry, not trained for that. Use 'todo <description>', 'deadline <description> /by <due date>', and 'event <description> /from <start date> /to <end date>' to add a task :)";
+    public static Command parse(String input) throws SimonExceptions.EmptyTaskException,
+            SimonExceptions.UnknownCommandException {
+        final String ERROR_MARK = " Invalid mark command. Enter an integer after \"mark \".";
+        final String ERROR_UNMARK = " Invalid unmark command. Enter an integer after \"unmark \".";
+        final String ERROR_DELETE = " The index of the task to delete cannot be empty. Follow the format:"
+                + " delete <task index>.";
+        final String ERROR_ON = " Invalid date for on command. Follow the format: on <yyyy-MM-dd>.";
+        final String ERROR_TODO = " The description of a todo cannot be empty. Follow the format:"
+                + " todo <description>.";
+        final String ERROR_DEADLINE = " The description and deadline of a deadline task cannot be empty."
+                + " Follow the format: deadline <description> /by <due date>.\n"
+                + " Dates can follow the formats:\n"
+                + " d/M/yyyy HHmm,\n"
+                + " d/M/yyyy,\n"
+                + " yyyy-MM-dd HHmm,\n"
+                + " yyyy-MM-dd\n";
+        final String ERROR_EVENT = " The description, start, and end of an event cannot be empty."
+                + " Follow the format: event <description> /from <start date> /to <end date>.\n"
+                + " Dates can follow the formats:\n"
+                + " d/M/yyyy HHmm,\n"
+                + " d/M/yyyy,\n"
+                + " yyyy-MM-dd HHmm,\n"
+                + " yyyy-MM-dd\n";
+        final String ERROR_UNKNOWN = " Sorry, not trained for that. Use 'todo <description>',"
+                + " 'deadline <description> /by <due date>', and 'event <description>"
+                + " /from <start date> /to <end date>' to add a task :)";
 
         String[] words = input.trim().split(" ", 2);
         String command = words[0];
@@ -60,64 +66,66 @@ public class Parser {
                 return new ListCommand();
             case "mark":
                 if (words.length < 2 || words[1].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(MARK_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_MARK);
                 }
                 try {
                     int markIdx = Integer.parseInt(words[1]) - 1;
                     return new MarkCommand(markIdx);
                 } catch (NumberFormatException e) {
-                    throw new SimonExceptions.EmptyTaskException(MARK_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_MARK);
                 }
             case "unmark":
                 if (words.length < 2 || words[1].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(UNMARK_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_UNMARK);
                 }
                 try {
                     int unmarkIdx = Integer.parseInt(words[1]) - 1;
                     return new UnmarkCommand(unmarkIdx);
                 } catch (NumberFormatException e) {
-                    throw new SimonExceptions.EmptyTaskException(UNMARK_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_UNMARK);
                 }
             case "delete":
                 if (words.length < 2 || words[1].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(DELETE_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_DELETE);
                 }
                 try {
                     int delIdx = Integer.parseInt(words[1]) - 1;
                     return new DeleteCommand(delIdx);
                 } catch (NumberFormatException e) {
-                    throw new SimonExceptions.EmptyTaskException(DELETE_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_DELETE);
                 }
             case "on":
                 if (words.length < 2 || words[1].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(ON_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_ON);
                 }
                 return new OnCommand(words[1].trim());
             case "todo":
                 if (words.length < 2 || words[1].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(TODO_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_TODO);
                 }
                 return new AddCommand(new Todo(words[1].trim()));
             case "deadline":
                 if (words.length < 2 || words[1].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(DEADLINE_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_DEADLINE);
                 }
                 String[] deadlineParts = words[1].split(" /by ", 2);
-                if (deadlineParts.length < 2 || deadlineParts[0].trim().isEmpty() || deadlineParts[1].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(DEADLINE_ERROR);
+                if (deadlineParts.length < 2 || deadlineParts[0].trim().isEmpty()
+                        || deadlineParts[1].trim().isEmpty()) {
+                    throw new SimonExceptions.EmptyTaskException(ERROR_DEADLINE);
                 }
                 return new AddCommand(new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim()));
             case "event":
                 if (words.length < 2 || words[1].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(EVENT_ERROR);
+                    throw new SimonExceptions.EmptyTaskException(ERROR_EVENT);
                 }
                 String[] eventParts = words[1].split(" /from | /to ", 3);
-                if (eventParts.length < 3 || eventParts[0].trim().isEmpty() || eventParts[1].trim().isEmpty() || eventParts[2].trim().isEmpty()) {
-                    throw new SimonExceptions.EmptyTaskException(EVENT_ERROR);
+                if (eventParts.length < 3 || eventParts[0].trim().isEmpty() || eventParts[1].trim().isEmpty()
+                        || eventParts[2].trim().isEmpty()) {
+                    throw new SimonExceptions.EmptyTaskException(ERROR_EVENT);
                 }
                 return new AddCommand(new Event(eventParts[0].trim(), eventParts[1].trim(), eventParts[2].trim()));
             default:
-                throw new SimonExceptions.UnknownCommandException(UNKNOWN_ERROR);
+                throw new SimonExceptions.UnknownCommandException(ERROR_UNKNOWN);
         }
     }
 
@@ -177,7 +185,8 @@ public class Parser {
             return type + " | " + done + " | " + task.getDescription() + " | " + ((Deadline) task).getBy();
         } else if (task instanceof Event) {
             type = "E";
-            return type + " | " + done + " | " + task.getDescription() + " | " + ((Event) task).getStart() + " | " + ((Event) task).getEnd();
+            return type + " | " + done + " | " + task.getDescription() + " | " + ((Event) task).getStart() + " | "
+                    + ((Event) task).getEnd();
         }
         return "";
     }

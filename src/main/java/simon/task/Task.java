@@ -1,4 +1,5 @@
 package simon.task;
+
 /**
  * Represents a task. A <code>Task</code> object contains a description and completion status.
  */

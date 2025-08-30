@@ -1,9 +1,9 @@
 package simon.ui;
+
 import java.util.Scanner;
+import java.util.List;
 
 import simon.task.Task;
-
-import java.util.List;
 
 /**
  * Handles user interface for the Simon chatbot. A <code>Ui</code> object manages input and output to the user.
@@ -65,9 +65,9 @@ public class Ui {
     public void showAddTask(Task task, int size) {
         System.out.println(
                 " Got it. I've added this task:\n"
-                + "   " + task
-                + "\n Now you have " + size + " tasks in the list."
-            );
+                        + "   " + task
+                        + "\n Now you have " + size + " tasks in the list."
+        );
     }
 
     /**
@@ -79,9 +79,9 @@ public class Ui {
     public void showDeleteTask(Task task, int size) {
         System.out.println(
                 " Noted. I've removed this task:\n"
-                + "   " + task
-                + "\n Now you have " + size + " tasks in the list."
-            );
+                        + "   " + task
+                        + "\n Now you have " + size + " tasks in the list."
+        );
     }
 
     /**
@@ -104,8 +104,8 @@ public class Ui {
     public void showMarkTask(Task task) {
         System.out.println(
                 " Nice! I've marked this task as done:\n"
-                + "   " + task
-            );
+                        + "   " + task
+        );
     }
 
     /**
@@ -116,8 +116,8 @@ public class Ui {
     public void showUnmarkTask(Task task) {
         System.out.println(
                 " OK, I've marked this task as not done yet:\n"
-                + "   " + task
-            );
+                        + "   " + task
+        );
     }
 
     /**

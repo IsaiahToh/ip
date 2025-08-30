@@ -1,4 +1,5 @@
 package simon.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -14,7 +15,7 @@ public class Deadline extends Task {
      * Constructs a Deadline task using the inputted description and due date or time string.
      *
      * @param description Description of the deadline task.
-     * @param by Due date or time as a string.
+     * @param by          Due date or time as a string.
      */
     public Deadline(String description, String by) {
         super(description);
@@ -31,10 +32,10 @@ public class Deadline extends Task {
      */
     private LocalDateTime parseDateTime(String input) {
         String[] patterns = {
-            "d/M/yyyy HHmm",
-            "d/M/yyyy",
-            "yyyy-MM-dd HHmm",
-            "yyyy-MM-dd"
+                "d/M/yyyy HHmm",
+                "d/M/yyyy",
+                "yyyy-MM-dd HHmm",
+                "yyyy-MM-dd"
         };
         for (String pattern : patterns) {
             try {
@@ -43,7 +44,8 @@ public class Deadline extends Task {
                 } else {
                     return LocalDateTime.parse(input + " 0000", DateTimeFormatter.ofPattern(pattern + " HHmm"));
                 }
-            } catch (DateTimeParseException e) {}
+            } catch (DateTimeParseException e) {
+            }
         }
         return null;
     }

@@ -1,4 +1,5 @@
 package simon.command;
+
 import java.util.ArrayList;
 
 import simon.storage.Storage;

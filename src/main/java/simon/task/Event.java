@@ -1,12 +1,14 @@
 package simon.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * Represents a task that has a time period. An <code>Event</code> object contains a description, start, and end date/time.
+ * Represents a task that has a time period.
+ * An <code>Event</code> object contains a description, start, and end date/time.
  */
-public class Event extends Task{
+public class Event extends Task {
     protected String start;
     protected String end;
     protected LocalDateTime startDateTime;
@@ -16,8 +18,8 @@ public class Event extends Task{
      * Constructs an Event task with the inputted description, start, and end date/time strings.
      *
      * @param description Description of the event task.
-     * @param start Start date/time as a string.
-     * @param end End date/time as a string.
+     * @param start       Start date/time as a string.
+     * @param end         End date/time as a string.
      */
     public Event(String description, String start, String end) {
         super(description);
@@ -36,10 +38,10 @@ public class Event extends Task{
      */
     private LocalDateTime parseDateTime(String input) {
         String[] patterns = {
-            "d/M/yyyy HHmm",
-            "d/M/yyyy",
-            "yyyy-MM-dd HHmm",
-            "yyyy-MM-dd"
+                "d/M/yyyy HHmm",
+                "d/M/yyyy",
+                "yyyy-MM-dd HHmm",
+                "yyyy-MM-dd"
         };
         for (String pattern : patterns) {
             try {
@@ -48,7 +50,8 @@ public class Event extends Task{
                 } else {
                     return LocalDateTime.parse(input + " 0000", DateTimeFormatter.ofPattern(pattern + " HHmm"));
                 }
-            } catch (DateTimeParseException e) {}
+            } catch (DateTimeParseException e) {
+            }
         }
         return null;
     }
