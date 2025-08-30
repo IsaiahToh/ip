@@ -14,8 +14,17 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+/**
+ * Unit tests for the Storage class, namely the load() method.
+ */
 public class StorageTest {
 
+    /**
+     * Tests loading from an empty file. Asserts that the returned task list is empty.
+     *
+     * @param tempDir Temporary directory provided by JUnit.
+     * @throws IOException If an I/O error occurs.
+     */
     @Test
     void testLoad_emptyFile(@TempDir Path tempDir) throws IOException {
         Path filePath = tempDir.resolve("tasks.txt");
@@ -24,6 +33,12 @@ public class StorageTest {
         Assertions.assertTrue(tasks.isEmpty());
     }
 
+    /**
+     * Tests loading a Todo task from file. Asserts that the task is loaded correctly.
+     *
+     * @param tempDir Temporary directory from JUnit.
+     * @throws IOException If an I/O error occurs.
+     */
     @Test
     void testLoad_todo(@TempDir Path tempDir) throws IOException {
         Path filePath = tempDir.resolve("tasks.txt");
@@ -38,6 +53,12 @@ public class StorageTest {
         Assertions.assertTrue(tasks.get(0).isDone());
     }
 
+    /**
+     * Tests loading a Deadline task from file. Asserts that the task is loaded correctly.
+     *
+     * @param tempDir Temporary directory from JUnit.
+     * @throws IOException If an I/O error occurs.
+     */
     @Test
     void testLoad_deadline(@TempDir Path tempDir) throws IOException {
         Path filePath = tempDir.resolve("tasks.txt");
@@ -53,6 +74,12 @@ public class StorageTest {
         Assertions.assertFalse(tasks.get(0).isDone());
     }
 
+    /**
+     * Tests loading an Event task from file. Asserts that the task is loaded correctly.
+     *
+     * @param tempDir Temporary directory from JUnit.
+     * @throws IOException If an I/O error occurs.
+     */
     @Test
     void testLoad_event(@TempDir Path tempDir) throws IOException {
         Path filePath = tempDir.resolve("tasks.txt");
@@ -69,6 +96,12 @@ public class StorageTest {
         Assertions.assertTrue(tasks.get(0).isDone());
     }
 
+    /**
+     * Tests loading from a file with malformed lines. Only valid tasks should be loaded.
+     *
+     * @param tempDir Temporary directory from JUnit.
+     * @throws IOException If an I/O error occurs.
+     */
     @Test
     void testLoad_malformedLines(@TempDir Path tempDir) throws IOException {
         Path filePath = tempDir.resolve("tasks.txt");

@@ -16,7 +16,18 @@ import simon.task.Event;
 import simon.task.Task;
 import simon.task.Todo;
 
+/**
+ * Handles the parsing of user input commands and file lines into Task objects.
+ */
 public class Parser {
+    /**
+     * Parses user input string and returns corresponding Command object.
+     *
+     * @param input User input string.
+     * @return Corresponding Command object.
+     * @throws SimonExceptions.EmptyTaskException If the command is missing required arguments.
+     * @throws SimonExceptions.UnknownCommandException If the command is not recognized.
+     */
     public static Command parse(String input) throws SimonExceptions.EmptyTaskException, SimonExceptions.UnknownCommandException {
         final String MARK_ERROR = " Invalid mark command. Enter an integer after \"mark \".";
         final String UNMARK_ERROR = " Invalid unmark command. Enter an integer after \"unmark \".";
@@ -110,6 +121,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a line from the save file and returns the corresponding Task object.
+     * Returns null if the the type of task is not recognised.
+     *
+     * @param line Line from the save file.
+     * @return Corresponding Task object.
+     */
     public static Task parseTaskFromFile(String line) {
         try {
             String[] parts = line.split(" \\| ");
@@ -142,6 +160,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Converts Task object to string representation for saving to file.
+     *
+     * @param task Task object to convert.
+     * @return String representation of the task for file storage.
+     */
     public static String taskToFileString(Task task) {
         String type = null;
         String done = task.isDone() ? "1" : "0";

@@ -6,11 +6,20 @@ import simon.storage.Storage;
 import simon.task.TaskList;
 import simon.ui.Ui;
 
+/**
+ * Entry point for the Simon chatbot application. A <code>Simon</code> object manages the main loop and state of the program.
+ */
 public class Simon {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a Simon chatbot with the inputted file path for storage.
+     * Loads tasks from the file if possible, otherwise initializes an empty task list.
+     *
+     * @param filePath Path to the file for saving/loading tasks.
+     */
     public Simon(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -22,6 +31,9 @@ public class Simon {
         }
     }
 
+    /**
+     * Runs the main loop of the Simon chatbot, handling user input and executing commands.
+     */
     public void run() {
     String logo =
         "   _____ _\n"
@@ -48,6 +60,11 @@ public class Simon {
         }
     }
 
+    /**
+     * Main method. Starts the Simon chatbot application.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
         new Simon("./data/simon.txt").run();
     }
