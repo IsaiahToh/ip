@@ -121,6 +121,18 @@ public class Ui {
     }
 
     /**
+     * Displays the list of matching tasks to the user.
+     *
+     * @param tasks List of tasks to be displayed.
+     */
+    public void showFindTasks(List<Task> tasks) {
+        System.out.println(" Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(" " + (i + 1) + ". " + tasks.get(i));
+        }
+    }
+
+    /**
      * Displays the goodbye message to the user.
      */
     public void showGoodbye() {

@@ -1,13 +1,6 @@
 package simon.parser;
 
-import simon.command.AddCommand;
-import simon.command.Command;
-import simon.command.DeleteCommand;
-import simon.command.ExitCommand;
-import simon.command.ListCommand;
-import simon.command.MarkCommand;
-import simon.command.OnCommand;
-import simon.command.UnmarkCommand;
+import simon.command.*;
 
 import simon.exceptions.SimonExceptions;
 import simon.exceptions.SimonExceptions.EmptyTaskException;
@@ -37,6 +30,7 @@ public class Parser {
         final String ERROR_DELETE = " The index of the task to delete cannot be empty. Follow the format:"
                 + " delete <task index>.";
         final String ERROR_ON = " Invalid date for on command. Follow the format: on <yyyy-MM-dd>.";
+        final String ERROR_FIND = " Invalid find command. Follow the format: find <keyword>.";
         final String ERROR_TODO = " The description of a todo cannot be empty. Follow the format:"
                 + " todo <description>.";
         final String ERROR_DEADLINE = " The description and deadline of a deadline task cannot be empty."
@@ -99,6 +93,11 @@ public class Parser {
                     throw new SimonExceptions.EmptyTaskException(ERROR_ON);
                 }
                 return new OnCommand(words[1].trim());
+            case "find":
+                if (words.length < 2 || words[1].trim().isEmpty()) {
+                    throw new SimonExceptions.EmptyTaskException(ERROR_FIND);
+                }
+                return new FindCommand(words[1].trim());
             case "todo":
                 if (words.length < 2 || words[1].trim().isEmpty()) {
                     throw new SimonExceptions.EmptyTaskException(ERROR_TODO);
