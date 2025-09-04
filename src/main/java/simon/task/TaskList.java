@@ -74,7 +74,7 @@ public class TaskList {
     }
 
     /**
-     * Returns a list of all tasks in the TaskList.
+     * Returns a numbered list of all tasks in the TaskList.
      *
      * @return String listing out all tasks.
      */

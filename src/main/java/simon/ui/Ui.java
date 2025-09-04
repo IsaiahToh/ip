@@ -131,6 +131,8 @@ public class Ui {
 
     /**
      * Displays the goodbye message to the user.
+     * 
+     * @return Goodbye message to be displayed.
      */
     public String showGoodbye() {
         return " Bye. Hope to see you again soon!";

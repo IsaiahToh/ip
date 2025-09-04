@@ -143,20 +143,20 @@ public class Parser {
             String description = parts[2];
             Task task = null;
             switch (type) {
-                case "T":
-                    task = new Todo(description);
-                    break;
-                case "D":
-                    String by = parts.length > 3 ? parts[3] : "";
-                    task = new Deadline(description, by);
-                    break;
-                case "E":
-                    String start = parts.length > 3 ? parts[3] : "";
-                    String end = parts.length > 4 ? parts[4] : "";
-                    task = new Event(description, start, end);
-                    break;
-                default:
-                    return null;
+            case "T":
+                task = new Todo(description);
+                break;
+            case "D":
+                String by = parts.length > 3 ? parts[3] : "";
+                task = new Deadline(description, by);
+                break;
+            case "E":
+                String start = parts.length > 3 ? parts[3] : "";
+                String end = parts.length > 4 ? parts[4] : "";
+                task = new Event(description, start, end);
+                break;
+            default:
+                return null;
             }
             if (isDone && task != null) {
                 task.markAsDone();
