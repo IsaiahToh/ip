@@ -18,7 +18,7 @@ public class MarkCommand extends Command {
     public void execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
         Task t = tasks.get(index);
         t.markAsDone();
-        storage.save(new ArrayList<>(tasks.getAll()));
-        ui.showMarkTask(t);
+        storage.save(new ArrayList<>(tasks.getTasks()));
+        setString(ui.showMarkTask(t));
     }
 }

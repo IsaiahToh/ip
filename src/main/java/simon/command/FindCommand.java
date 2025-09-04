@@ -17,7 +17,7 @@ public class FindCommand extends Command{
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        for (Task t : tasks.getAll()) {
+        for (Task t : tasks.getTasks()) {
             String[] words = t.getDescription().trim().split(" ");
             for (String word : words) {
                 if (word.toLowerCase().contains(taskName.toLowerCase())) {
@@ -26,6 +26,6 @@ public class FindCommand extends Command{
                 }
             }
         }
-        ui.showFindTasks(matchingTasks);
+        setString(ui.showFindTasks(new TaskList(matchingTasks)));
     }
 }

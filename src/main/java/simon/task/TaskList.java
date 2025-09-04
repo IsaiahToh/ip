@@ -1,7 +1,8 @@
 package simon.task;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Represents a list of tasks. A <code>TaskList</code> object holds a collection of <code>Task</code> objects.
@@ -64,11 +65,22 @@ public class TaskList {
     }
 
     /**
-     * Returns a list of all tasks in the TaskList.
+     * Returns the list of tasks.
      *
-     * @return List containing all tasks.
+     * @return List of tasks.
      */
-    public List<Task> getAll() {
+    public ArrayList<Task> getTasks() {
         return tasks;
+    }
+
+    /**
+     * Returns a numbered list of all tasks in the TaskList.
+     *
+     * @return String listing out all tasks.
+     */
+    public String getAll() {
+        return IntStream.range(0, tasks.size())
+                .mapToObj(i -> (i + 1) + ". " + tasks.get(i))
+                .collect(Collectors.joining("\n"));
     }
 }
