@@ -1,0 +1,4 @@
+T | 1 | borrow book
+D | 0 | return book | 12/2/2025
+T | 0 | da
+T | 0 | dfas

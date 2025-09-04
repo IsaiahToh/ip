@@ -18,7 +18,7 @@ public class UnmarkCommand extends Command {
     public void execute(TaskList tasks, Ui ui, Storage storage) throws Exception {
         Task t = tasks.get(index);
         t.markAsNotDone();
-        storage.save(new ArrayList<>(tasks.getAll()));
-        ui.showUnmarkTask(t);
+        storage.save(new ArrayList<>(tasks.getTasks()));
+        setString(ui.showUnmarkTask(t));
     }
 }

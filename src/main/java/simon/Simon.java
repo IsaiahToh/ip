@@ -1,7 +1,7 @@
 package simon;
 
 import simon.command.Command;
-import simon.exceptions.SimonExceptions;
+import simon.exceptions.SimonException;
 import simon.parser.Parser;
 import simon.storage.Storage;
 import simon.task.TaskList;
@@ -15,6 +15,7 @@ public class Simon {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
+    private String commandType;
 
     /**
      * Constructs a Simon chatbot with the inputted file path for storage.
@@ -34,40 +35,19 @@ public class Simon {
     }
 
     /**
-     * Runs the main loop of the Simon chatbot, handling user input and executing commands.
+     * Generates a response for the user's chat message.
      */
-    public void run() {
-        String logo =
-                "   _____ _\n"
-                        + "  / ___/(_)___ ___  ____  ____\n"
-                        + "  \\__ \\/ / __ `__ \\/ __ \\/ __ \\\n"
-                        + " ___/ / / / / / / /_/ / / / /\n"
-                        + "/____/_/_/ /_/ /_/\\____/_/ /_/\n";
-        ui.showWelcome(logo);
-        boolean isExit = false;
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                ui.showLine(); // show the divider line ("_______")
-                Command c = Parser.parse(fullCommand);
-                c.execute(tasks, ui, storage);
-                isExit = c.isExit();
-            } catch (SimonExceptions.EmptyTaskException | SimonExceptions.UnknownCommandException e) {
-                ui.showError(e.getMessage());
-            } catch (Exception e) {
-                ui.showError("An error occurred: " + e.getMessage());
-            } finally {
-                ui.showLine();
-            }
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            c.execute(tasks, ui, storage);
+            commandType = c.getClass().getSimpleName();
+            return c.getString();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
         }
     }
-
-    /**
-     * Main method. Starts the Simon chatbot application.
-     *
-     * @param args Command-line arguments.
-     */
-    public static void main(String[] args) {
-        new Simon("./data/simon.txt").run();
+    public String getCommandType() {
+        return commandType;
     }
 }

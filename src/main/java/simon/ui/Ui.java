@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.List;
 
 import simon.task.Task;
+import simon.task.TaskList;
 
 /**
  * Handles user interface for the Simon chatbot. A <code>Ui</code> object manages input and output to the user.
@@ -14,21 +15,20 @@ public class Ui {
     /**
      * Displays the welcome message and logo to the user.
      *
-     * @param logo ASCII logo to be displayed.
+     * @return Welcome message to be displayed.
      */
-    public void showWelcome(String logo) {
-        System.out.println("____________________________________________________________\n"
-                + logo
-                + "\n Hello! I'm Simon\n"
-                + " What can I do for you?\n"
-                + "____________________________________________________________\n");
+    public String showWelcome() {
+        return " Hello! I'm Simon\n"
+                + " What can I do for you?";
     }
 
     /**
      * Displays a divider line.
+     *
+     * @return Divider line to be displayed.
      */
-    public void showLine() {
-        System.out.println("____________________________________________________________");
+    public String showLine() {
+        return "____________________________________________________________";
     }
 
     /**
@@ -43,17 +43,20 @@ public class Ui {
     /**
      * Displays an error message to the user.
      *
-     * @param message Error message to be displayed.
+     * @param message Error message.
+     * @return Error message to be displayed.
      */
-    public void showError(String message) {
-        System.out.println(message);
+    public String showError(String message) {
+        return message;
     }
 
     /**
      * Displays a loading error message to the user.
+     *
+     * @return Loading error message to be displayed.
      */
-    public void showLoadingError() {
-        System.out.println(" An error occurred while loading tasks.");
+    public String showLoadingError() {
+        return " An error occurred while loading tasks.";
     }
 
     /**
@@ -61,13 +64,12 @@ public class Ui {
      *
      * @param task Task that was added.
      * @param size New number of tasks in the list.
+     * @return Message to be displayed.
      */
-    public void showAddTask(Task task, int size) {
-        System.out.println(
-                " Got it. I've added this task:\n"
-                        + "   " + task
-                        + "\n Now you have " + size + " tasks in the list."
-        );
+    public String showAddTask(Task task, int size) {
+        return " Got it. I've added this task:\n"
+                + "   " + task
+                + "\n Now you have " + size + " tasks in the list.";
     }
 
     /**
@@ -75,67 +77,62 @@ public class Ui {
      *
      * @param task Task that was deleted.
      * @param size New number of tasks in the list.
+     * @return Message to be displayed.
      */
-    public void showDeleteTask(Task task, int size) {
-        System.out.println(
-                " Noted. I've removed this task:\n"
-                        + "   " + task
-                        + "\n Now you have " + size + " tasks in the list."
-        );
+    public String showDeleteTask(Task task, int size) {
+        return " Noted. I've removed this task:\n"
+                + "   " + task
+                + "\n Now you have " + size + " tasks in the list.";
     }
 
     /**
      * Displays the list of all the tasks to the user.
      *
      * @param tasks List of tasks to be displayed.
+     * @return Message listing out all tasks.
      */
-    public void showTaskList(List<Task> tasks) {
-        System.out.println(" Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(" " + (i + 1) + ". " + tasks.get(i));
-        }
+    public String showTaskList(TaskList tasks) {
+        return " Here are the tasks in your list:\n"
+                + tasks.getAll();
     }
 
     /**
      * Displays a message indicating that a task has been marked as done.
      *
      * @param task Task that was marked as done.
+     * @return Marked task message to be displayed.
      */
-    public void showMarkTask(Task task) {
-        System.out.println(
-                " Nice! I've marked this task as done:\n"
-                        + "   " + task
-        );
+    public String showMarkTask(Task task) {
+        return " Nice! I've marked this task as done:\n"
+                + "   " + task;
     }
 
     /**
      * Displays a message indicating that a task has been marked as not done.
      *
      * @param task Task that was marked as not done.
+     * @return Unmarked task message to be displayed.
      */
-    public void showUnmarkTask(Task task) {
-        System.out.println(
-                " OK, I've marked this task as not done yet:\n"
-                        + "   " + task
-        );
+    public String showUnmarkTask(Task task) {
+        return " OK, I've marked this task as not done yet:\n"
+                + "   " + task;
     }
 
     /**
      * Displays the list of matching tasks to the user.
      *
      * @param tasks List of tasks to be displayed.
+     * @return Message listing out matching tasks.
      */
-    public void showFindTasks(List<Task> tasks) {
-        System.out.println(" Here are the matching tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(" " + (i + 1) + ". " + tasks.get(i));
-        }
+    public String showFindTasks(TaskList tasks) {
+        return " Here are the matching tasks in your list:\n"
+                + tasks.getAll();
     }
 
     /**
      * Displays the goodbye message to the user.
      */
-    public void showGoodbye() {
-        System.out.println(" Bye. Hope to see you again soon!");
+    public String showGoodbye() {
+        return " Bye. Hope to see you again soon!";
     }
 }
