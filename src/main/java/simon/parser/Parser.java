@@ -45,7 +45,7 @@ public class Parser {
                 + " d/M/yyyy,\n"
                 + " yyyy-MM-dd HHmm,\n"
                 + " yyyy-MM-dd\n";
-        final String ERROR_UNKNOWN = " Sorry, not trained for that. Use"
+        final String ERROR_UNKNOWN = " Sorry, not trained for that. Use\n"
                 + " 'todo <description>',\n"
                 + " 'deadline <description> /by <due date>',\n"
                 + " and 'event <description> /from <start date> /to <end date>'\n"
