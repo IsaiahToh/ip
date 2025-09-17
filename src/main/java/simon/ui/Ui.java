@@ -1,7 +1,6 @@
 package simon.ui;
 
 import java.util.Scanner;
-import java.util.List;
 
 import simon.task.Task;
 import simon.task.TaskList;
@@ -127,6 +126,26 @@ public class Ui {
     public String showFindTasks(TaskList tasks) {
         return " Here are the matching tasks in your list:\n"
                 + tasks.getAll();
+    }
+
+    /**
+     * Displays the help message to the user.
+     * 
+     * @return Help message to be displayed.
+     */
+    public String showHelp() {
+        return "Available commands:\n"
+            + "list - List all tasks\n"
+            + "todo <description> - Add a todo\n"
+            + "deadline <description> /by <date> - Add a deadline\n"
+            + "event <description> /from <start> /to <end> - Add an event\n"
+            + "mark <index> - Mark a task as done\n"
+            + "unmark <index> - Unmark a task\n"
+            + "delete <index> - Delete a task\n"
+            + "find <keyword> - Find tasks\n"
+            + "on <date> - List tasks on a date\n"
+            + "bye - Exit the app\n"
+            + "help - Show this help message";
     }
 
     /**

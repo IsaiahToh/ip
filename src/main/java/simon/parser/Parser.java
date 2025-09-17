@@ -32,6 +32,7 @@ public class Parser {
     private static final String CMD_TODO = "todo";
     private static final String CMD_DEADLINE = "deadline";
     private static final String CMD_EVENT = "event";
+    private static final String CMD_HELP = "help";
 
     // Error messages
     private static final String ERROR_MARK = " Invalid mark command. Enter an integer after \"mark \",.";
@@ -73,6 +74,8 @@ public class Parser {
             return parseDeadline(args);
         case CMD_EVENT:
             return parseEvent(args);
+        case CMD_HELP:
+            return new HelpCommand();
         default:
             throw new SimonException.UnknownCommandException(ERROR_UNKNOWN);
         }
