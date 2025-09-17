@@ -40,6 +40,7 @@ public class Simon {
     public String getResponse(String input) {
         try {
             Command c = Parser.parse(input);
+            assert c != null : "Parsed command should not be null";
             c.execute(tasks, ui, storage);
             commandType = c.getClass().getSimpleName();
             return c.getString();
