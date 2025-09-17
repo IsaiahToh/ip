@@ -47,6 +47,8 @@ public class Parser {
     public static Command parse(String input) throws SimonException.EmptyTaskException,
             SimonException.UnknownCommandException {
         String[] words = input.trim().split(" ", 2);
+        assert words.length > 0 : "Input command should not be empty";
+
         String command = words[0];
         String args = words.length > 1 ? words[1].trim() : "";
 
@@ -82,6 +84,7 @@ public class Parser {
         }
         try {
             int markIdx = Integer.parseInt(args) - 1;
+            assert markIdx >= 0 : "Task index should be non-negative";
             return new MarkCommand(markIdx);
         } catch (NumberFormatException e) {
             throw new SimonException.EmptyTaskException(ERROR_MARK);
@@ -94,6 +97,7 @@ public class Parser {
         }
         try {
             int unmarkIdx = Integer.parseInt(args) - 1;
+            assert unmarkIdx >= 0 : "Task index should be non-negative";
             return new UnmarkCommand(unmarkIdx);
         } catch (NumberFormatException e) {
             throw new SimonException.EmptyTaskException(ERROR_UNMARK);
@@ -106,6 +110,7 @@ public class Parser {
         }
         try {
             int delIdx = Integer.parseInt(args) - 1;
+            assert delIdx >= 0 : "Task index should be non-negative";
             return new DeleteCommand(delIdx);
         } catch (NumberFormatException e) {
             throw new SimonException.EmptyTaskException(ERROR_DELETE);
