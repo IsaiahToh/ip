@@ -18,7 +18,19 @@ public class Ui {
      */
     public String showWelcome() {
         return " Hello! I'm Simon\n"
-                + " What can I do for you?";
+                + " What can I do for you?\n\n"
+                + "Available commands:\n"
+                + "list - List all tasks\n"
+                + "todo <description> - Add a todo\n"
+                + "deadline <description> /by <date> - Add a deadline\n"
+                + "event <description> /from <start> /to <end> - Add an event\n"
+                + "mark <index> - Mark a task as done\n"
+                + "unmark <index> - Unmark a task\n"
+                + "delete <index> - Delete a task\n"
+                + "find <keyword> - Find tasks\n"
+                + "on <date> - List tasks on a date\n"
+                + "bye - Exit the app\n"
+                + "help - Show this help message";
     }
 
     /**
