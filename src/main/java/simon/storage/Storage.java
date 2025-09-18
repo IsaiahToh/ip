@@ -63,10 +63,13 @@ public class Storage {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        FileWriter writer = new FileWriter(filePath);
-        for (Task task : tasks) {
-            writer.write(Parser.taskToFileString(task) + "\n");
+        try (FileWriter writer = new FileWriter(filePath)) {
+            for (Task task : tasks) {
+                writer.write(Parser.taskToFileString(task) + "\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving tasks to file: " + e.getMessage());
+            throw e;
         }
-        writer.close();
     }
 }

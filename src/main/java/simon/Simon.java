@@ -44,8 +44,10 @@ public class Simon {
             c.execute(tasks, ui, storage);
             commandType = c.getClass().getSimpleName();
             return c.getString();
+        } catch (SimonException.EmptyTaskException | SimonException.UnknownCommandException e) {
+            return e.getMessage();
         } catch (Exception e) {
-            return "Error: " + e.getMessage();
+            return "An unexpected error occurred: " + e.getMessage();
         }
     }
     public String getCommandType() {
