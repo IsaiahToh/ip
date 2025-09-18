@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import simon.ui.Ui;
 /**
  * Controller for the main GUI.
  */
@@ -28,6 +29,9 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.getChildren().add(
+            DialogBox.getSimonDialog(new Ui().showWelcome(), simonImage, "welcome")
+        );
     }
 
     /** Injects the Duke instance */
