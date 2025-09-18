@@ -44,9 +44,13 @@ public class Parser {
     private static final String ERROR_DEADLINE = " The description and deadline of a deadline task cannot be empty. Follow the format: deadline <description> /by <due date>.\nDates can follow the formats:\nd/M/yyyy HHmm,\nd/M/yyyy,\nyyyy-MM-dd HHmm,\nyyyy-MM-dd\n";
     private static final String ERROR_EVENT = " The description, start, and end of an event cannot be empty. Follow the format: event <description> /from <start date> /to <end date>.\nDates can follow the formats:\nd/M/yyyy HHmm,\nd/M/yyyy,\nyyyy-MM-dd HHmm,\nyyyy-MM-dd\n";
     private static final String ERROR_UNKNOWN = " Sorry, not trained for that. Use\n 'todo <description>',\n 'deadline <description> /by <due date>',\n and 'event <description> /from <start date> /to <end date>'\n to add a task :)";
+    private static final String ERROR_EMPTY = " Input cannot be empty. Type 'help' for available commands.";
 
     public static Command parse(String input) throws SimonException.EmptyTaskException,
             SimonException.UnknownCommandException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new SimonException.EmptyTaskException(ERROR_EMPTY);
+        }
         String[] words = input.trim().split(" ", 2);
         assert words.length > 0 : "Input command should not be empty";
 
